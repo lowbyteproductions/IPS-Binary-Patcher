@@ -1,10 +1,17 @@
 #include "file_ex.h"
 
 size_t GetFileSize(FILE* fp) {
-  fseek(fp, 0, SEEK_END);
-  size_t fileSize = ftell(fp);
+  if (fseek(fp, 0, SEEK_END) < 0) {
+    return 0;
+  }
+
+  uint64_t fileSize = ftell(fp);
+  if (fileSize < 0) {
+    fileSize = 0;
+  }
   rewind(fp);
-  return fileSize;
+
+  return (size_t)fileSize;
 }
 
 File_t Open(const char* __restrict__ filename, const char* __restrict__ modes) {
@@ -23,10 +30,9 @@ SizedPtr_t ReadToEnd(const char *__restrict__ filename, const char *__restrict__
   SizedPtr_t fb;
   File_t ft = Open(filename, modes);
 
-  if (ft.ptr == NULL) {
+  if (ft.ptr == NULL || ft.size == 0) {
     fb.data = NULL;
     fb.size = 0;
-    fclose(ft.ptr);
     return fb;
   }
 
