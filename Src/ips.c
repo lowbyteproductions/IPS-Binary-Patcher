@@ -5,14 +5,14 @@ bool IPS_HeaderValid(const SizedPtr_t* patch) {
     return false;
   }
 
-  return strncmp(patch->data, IPS_HEADER, 5) == 0;
+  return memcmp(patch->data, IPS_HEADER, 5) == 0;
 }
 
 bool IPS_IsEOF(const SizedPtr_t* patch, size_t* offset) {
   if (*offset + 3 > patch->size) {
     return true;
   }
-  return strncmp(patch->data + *offset, IPS_EOF, 3) == 0;
+  return memcmp(patch->data + *offset, IPS_EOF, 3) == 0;
 }
 
 bool IPS_ReadRecord(const SizedPtr_t* patch, IPS_Record_t* record, size_t* offset) {

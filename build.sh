@@ -6,7 +6,7 @@ mkdir -p obj
 mkdir -p bin
 
 LINK_FLAGS=""
-COMPILER_FLAGS="-g"
+COMPILER_FLAGS="-Wall -Wextra -pedantic -g"
 IFLAGS=$(find . -name "*.h" | xargs dirname | uniq | awk '{ print "-I" $0 }')
 
 SRC_FILES=$(find . -name "*.c")

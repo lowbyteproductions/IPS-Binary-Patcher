@@ -9,8 +9,8 @@ int main() {
   SizedPtr_t patch = ReadToEnd(PATCH_FILE, "rb");
   SizedPtr_t rom = ReadToEnd(ROM_FILE, "rb");
 
-  printf("Opened patch file (%d bytes)\n", patch.size);
-  printf("Opened rom file (%d bytes)\n", rom.size);
+  printf("Opened patch file (%ld bytes)\n", patch.size);
+  printf("Opened rom file (%ld bytes)\n", rom.size);
 
   if (!IPS_HeaderValid(&patch)) {
     printf("Header invalid, exiting.\n");
@@ -22,14 +22,14 @@ int main() {
   size_t lastWrittenOffset = 0;
   IPS_Record_t* record = malloc(sizeof(IPS_Record_t));
   size_t recordsRead = IPS_ReadRecords(&patch, record, &offset, &lastWrittenOffset);
-  printf("Read %d records from the patch file\n", recordsRead);
+  printf("Read %ld records from the patch file\n", recordsRead);
 
 
   size_t targetSize = rom.size;
   if (lastWrittenOffset + 1 > rom.size) {
     targetSize = lastWrittenOffset + 1;
   }
-  printf("Creating a patched rom of size %d bytes\n", targetSize);
+  printf("Creating a patched rom of size %ld bytes\n", targetSize);
 
   uint8_t* target = malloc(targetSize);
   memcpy(target, rom.data, rom.size);
