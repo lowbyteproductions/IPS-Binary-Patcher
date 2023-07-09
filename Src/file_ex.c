@@ -5,7 +5,7 @@ size_t GetFileSize(FILE* fp) {
     return 0;
   }
 
-  uint64_t fileSize = ftell(fp);
+  int64_t fileSize = ftell(fp);
   if (fileSize < 0) {
     fileSize = 0;
   }
